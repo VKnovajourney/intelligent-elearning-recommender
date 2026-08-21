@@ -210,13 +210,9 @@ Possible improvements include:
 
 ---
 
-## 📸 Screenshot
+## 📸 Application Demo
 
-Add your project screenshot or GIF here:
-
-```markdown
 ![E-Learning Course Recommender](Recording.gif)
-```
 
 ---
 
