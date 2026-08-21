@@ -209,12 +209,38 @@ Possible improvements include:
 * Deploying the application online
 
 ---
+## 📸 Application Screenshots
 
-## 📸 Application Demo
+### 🏠 Home Screen
 
-![E-Learning Course Recommender](Recording.gif)
+The landing screen introduces the **E-Learning Course Recommender** and allows users to select a course.
+
+![Home Screen](screenshot/home.png)
 
 ---
+
+### 🎓 Course Selection
+
+Users can browse and select from the available courses using the dropdown menu.
+
+![Course Selection](screenshot/course-selection.png)
+
+---
+
+### ⭐ Course Recommendations
+
+After selecting a course, the system analyzes course similarity and displays the **Top 5 recommended courses**.
+
+![Course Recommendations](screenshot/recommendations.png)
+
+---
+
+## 🎬 Application Demo
+
+A complete demonstration of the application:
+
+![E-Learning Course Recommender Demo](Recording.gif)
+
 
 ## 👨‍💻 Author
 
