@@ -243,7 +243,7 @@ A complete demonstration of the application:
 
 ## 👨‍💻 Author
 
-**Vaishnavi Sahu**
+**Vaishnavi Sahu & Sudhanshu Thakur**
 
 B.Tech Computer Science Engineering Student
 
