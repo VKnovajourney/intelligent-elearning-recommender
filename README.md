@@ -215,7 +215,7 @@ Possible improvements include:
 
 The landing screen introduces the **E-Learning Course Recommender** and allows users to select a course.
 
-![Home Screen](screenshot/home.png)
+![Home Screen](Screenshot/home.png)
 
 ---
 
@@ -223,7 +223,7 @@ The landing screen introduces the **E-Learning Course Recommender** and allows u
 
 Users can browse and select from the available courses using the dropdown menu.
 
-![Course Selection](screenshot/course-selection.png)
+![Course Selection](Screenshot/course-selection.png)
 
 ---
 
@@ -231,7 +231,7 @@ Users can browse and select from the available courses using the dropdown menu.
 
 After selecting a course, the system analyzes course similarity and displays the **Top 5 recommended courses**.
 
-![Course Recommendations](screenshot/recommendations.png)
+![Course Recommendations](Screenshot/recommendations.png)
 
 ---
 
