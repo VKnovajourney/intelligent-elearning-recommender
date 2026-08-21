@@ -10,11 +10,11 @@ def prepare_model():
     # 1. Data Load karna
     df = pd.read_csv("coursea_data.csv")
     
-    # Faaltu column hatana (agar ho toh)
+    # Remove unwanted files
     if 'Unnamed: 0' in df.columns:
         df = df.drop(columns=['Unnamed: 0'])
         
-    # 2. Tags banana (Title + Organization + Difficulty)
+    # 2. Title + Organization + Difficulty
     df['tags'] = df['course_title'] + " " + df['course_organization'] + " " + df['course_difficulty']
     
     # 3. Text ko Numbers (Vectors) mein convert karna
