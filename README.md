@@ -239,8 +239,7 @@ After selecting a course, the system analyzes course similarity and displays the
 
 A complete demonstration of the application:
 
-![E-Learning Course Recommender Demo](Recording.gif)
-
+<p align="center"> <img src="Recording.gif" alt="E-Learning Course Recommender Demo" width="850"> </p>
 
 ## 👨‍💻 Author
 
