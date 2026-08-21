@@ -1,61 +1,139 @@
 import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
 import pickle
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
+# --------------------------------------------------
+# PREPARE RECOMMENDATION MODEL
+# --------------------------------------------------
 def prepare_model():
-    print("Model train ho raha hai, thoda wait karo...\n")
-    
-    # 1. Data Load karna
+
+    print("Preparing recommendation model...\n")
+
+    # Load dataset
     df = pd.read_csv("coursea_data.csv")
-    
-    # Remove unwanted files
-    if 'Unnamed: 0' in df.columns:
-        df = df.drop(columns=['Unnamed: 0'])
-        
-    # 2. Title + Organization + Difficulty
-    df['tags'] = df['course_title'] + " " + df['course_organization'] + " " + df['course_difficulty']
-    
-    # 3. Text ko Numbers (Vectors) mein convert karna
-    cv = CountVectorizer(max_features=5000, stop_words='english')
-    vectors = cv.fit_transform(df['tags']).toarray()
-    
-    # 4. Cosine Similarity calculate karna
+
+    # Remove unnecessary column if it exists
+    if "Unnamed: 0" in df.columns:
+        df = df.drop(columns=["Unnamed: 0"])
+
+    # Check required columns
+    required_columns = [
+        "course_title",
+        "course_organization",
+        "course_difficulty"
+    ]
+
+    for column in required_columns:
+        if column not in df.columns:
+            raise ValueError(
+                f"Required column '{column}' not found in coursea_data.csv"
+            )
+
+    # Remove missing values
+    df = df.dropna(
+        subset=[
+            "course_title",
+            "course_organization",
+            "course_difficulty"
+        ]
+    )
+
+    # Create tags for recommendation
+    df["tags"] = (
+        df["course_title"].astype(str)
+        + " "
+        + df["course_organization"].astype(str)
+        + " "
+        + df["course_difficulty"].astype(str)
+    )
+
+    # Convert text into vectors
+    cv = CountVectorizer(
+        max_features=5000,
+        stop_words="english"
+    )
+
+    vectors = cv.fit_transform(df["tags"])
+
+    # Calculate cosine similarity
     similarity = cosine_similarity(vectors)
-    
-    print("Model Ready!\n" + "-"*30)
+
+    print("Model ready!")
+    print("-" * 40)
+
     return df, similarity
 
-def recommend(course_name, df, similarity):
-    try:
-        # Course ka index nikalna
-        course_index = df[df['course_title'] == course_name].index[0]
-    except IndexError:
-        print(f"Error: '{course_name}' naam ka koi course data mein nahi mila.")
-        return
-    
-    # Match scores nikalna aur sort karna
-    distances = similarity[course_index]
-    courses_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x: x[1])[1:6]
-    
-    print(f"Agar aapko '{course_name}' pasand aaya, toh yeh 5 courses zaroor dekhein:\n")
-    for i in courses_list:
-        print(f"-> {df.iloc[i[0]]['course_title']}")
 
-# --- MAIN EXECUTION ---
+# --------------------------------------------------
+# RECOMMEND COURSES
+# --------------------------------------------------
+def recommend(course_name, df, similarity):
+
+    matching_courses = df[
+        df["course_title"].str.lower()
+        == course_name.lower()
+    ]
+
+    if matching_courses.empty:
+        print(f"\nCourse '{course_name}' was not found.")
+        return
+
+    course_index = matching_courses.index[0]
+
+    # Get similarity scores
+    distances = similarity[course_index]
+
+    # Get top 5 similar courses
+    courses_list = sorted(
+        enumerate(distances),
+        key=lambda x: x[1],
+        reverse=True
+    )[1:6]
+
+    print(f"\nTop 5 recommendations for '{course_name}':\n")
+
+    for rank, (index, score) in enumerate(courses_list, start=1):
+
+        recommended_course = df.iloc[index]["course_title"]
+
+        print(
+            f"{rank}. {recommended_course}"
+        )
+
+
+# --------------------------------------------------
+# MAIN
+# --------------------------------------------------
 if __name__ == "__main__":
-    # Model prepare karte hain
+
+    # Prepare model
     dataframe, similarity_matrix = prepare_model()
-    print("Model save ho raha hai...")
-    # Dataset ko save kar rahe hain (taaki courses ke naam mil sakein)
-    pickle.dump(dataframe, open('courses_data.pkl', 'wb'))
-    
-    # Math (Similarity matrix) ko save kar rahe hain
-    pickle.dump(similarity_matrix, open('similarity_matrix.pkl', 'wb'))
-    
-    print("Model successfully saved in .pkl files! 🎉")
-    
-    # Test karte hain! (Spelling ekdum same honi chahiye dataset jaisi)
-    test_course = input("Enter the course you are searching for: ").title()
-    recommend(test_course, dataframe, similarity_matrix)
+
+    print("\nSaving model files...")
+
+    # Save dataframe
+    with open("courses_data.pkl", "wb") as file:
+        pickle.dump(dataframe, file)
+
+    # Save similarity matrix
+    with open("similarity_matrix.pkl", "wb") as file:
+        pickle.dump(similarity_matrix, file)
+
+    print("Model files saved successfully!")
+    print("courses_data.pkl")
+    print("similarity_matrix.pkl")
+
+    # Optional test
+    print("\nTesting the recommendation system...\n")
+
+    test_course = input(
+        "Enter a course name to test: "
+    ).strip()
+
+    recommend(
+        test_course,
+        dataframe,
+        similarity_matrix
+    )
