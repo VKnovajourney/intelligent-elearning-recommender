@@ -223,7 +223,7 @@ The landing screen introduces the **E-Learning Course Recommender** and allows u
 
 Users can browse and select from the available courses using the dropdown menu.
 
-![Course Selection](Screenshot/course-selection.png)
+![Course Selection](Screenshot/course_selection.png)
 
 ---
 
