@@ -248,6 +248,11 @@ A complete demonstration of the application:
 B.Tech Computer Science Engineering Student
 
 ---
+## 🌐 Website link 
+
+You can try the app by clicking on the given link
+
+https://intelligent-elearning-recommender-8brtiac7h7lwxfgbuqkpvr.streamlit.app/
 
 ## 📜 License
 
